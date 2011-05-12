@@ -156,7 +156,6 @@ public abstract class GenericFilterBean implements
 		if (logger.isDebugEnabled()) {
 			logger.debug("Initializing filter '" + filterConfig.getFilterName() + "'");
 		}
-
 		this.filterConfig = filterConfig;
 
 		// Set bean properties from init parameters.
