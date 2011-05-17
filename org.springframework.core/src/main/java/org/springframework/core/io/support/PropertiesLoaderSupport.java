@@ -39,22 +39,25 @@ import org.springframework.util.PropertiesPersister;
  */
 public abstract class PropertiesLoaderSupport {
 
+	//文件结束符
 	public static final String XML_FILE_EXTENSION = ".xml";
 
 
 	/** Logger available to subclasses */
 	protected final Log logger = LogFactory.getLog(getClass());
 
+	//待加载的Properties
 	private Properties[] localProperties;
 
+	//待加载的Resource
 	private Resource[] locations;
-
+	// 是否本地重写
 	private boolean localOverride = false;
-
+	//忽略找不到的资源
 	private boolean ignoreResourceNotFound = false;
-
+	//编码
 	private String fileEncoding;
-
+	//读取或者输出Properties文件的工具类
 	private PropertiesPersister propertiesPersister = new DefaultPropertiesPersister();
 
 
@@ -144,18 +147,20 @@ public abstract class PropertiesLoaderSupport {
 	 */
 	protected Properties mergeProperties() throws IOException {
 		Properties result = new Properties();
-
+		//Properties 是 Hashtable 的子类，key/value 的形式存在value被覆盖的情况
+		//localOverride为true，则 本次加载，本地Resource，如果localProperties将会覆盖他
+		//localProperties将覆盖Resource中相同的
 		if (this.localOverride) {
 			// Load properties from file upfront, to let local properties override.
 			loadProperties(result);
 		}
-
+		// 加载所有的 localProperties
 		if (this.localProperties != null) {
 			for (Properties localProp : this.localProperties) {
 				CollectionUtils.mergePropertiesIntoMap(localProp, result);
 			}
 		}
-
+		//否则不覆盖
 		if (!this.localOverride) {
 			// Load properties from file afterwards, to let those properties override.
 			loadProperties(result);
@@ -165,7 +170,7 @@ public abstract class PropertiesLoaderSupport {
 	}
 
 	/**
-	 * Load properties into the given instance.
+	 * 加载所有本地 locations（Resource），包括xml和其他文件
 	 * @param props the Properties instance to load into
 	 * @throws java.io.IOException in case of I/O errors
 	 * @see #setLocations
