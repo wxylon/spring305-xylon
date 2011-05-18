@@ -593,8 +593,8 @@ public abstract class ClassUtils {
 	}
 
 	/**
-	 * Determine whether the given class has a method with the given signature.
-	 * <p>Essentially translates <code>NoSuchMethodException</code> to "false".
+	 * 确定指定类 是否包含  方法名为 methodName, 并且参数为paramTypes的方法
+	 * 必须转化	<code>NoSuchMethodException</code> to "false"
 	 * @param clazz	the clazz to analyze
 	 * @param methodName the name of the method
 	 * @param paramTypes the parameter types of the method
@@ -604,17 +604,17 @@ public abstract class ClassUtils {
 	public static boolean hasMethod(Class<?> clazz, String methodName, Class<?>... paramTypes) {
 		return (getMethodIfAvailable(clazz, methodName, paramTypes) != null);
 	}
-
+	
 	/**
-	 * Determine whether the given class has a method with the given signature,
-	 * and return it if available (else return <code>null</code>).
-	 * <p>Essentially translates <code>NoSuchMethodException</code> to <code>null</code>.
+	 * 查找  方法名为 methodName, 并且参数为paramTypes的 方法的 Method 对象
+	 * 必须转化	<code>NoSuchMethodException</code> to <code>null</code>.
 	 * @param clazz	the clazz to analyze
 	 * @param methodName the name of the method
 	 * @param paramTypes the parameter types of the method
 	 * @return the method, or <code>null</code> if not found
 	 * @see java.lang.Class#getMethod
 	 */
+	
 	public static Method getMethodIfAvailable(Class<?> clazz, String methodName, Class<?>... paramTypes) {
 		Assert.notNull(clazz, "Class must not be null");
 		Assert.notNull(methodName, "Method name must not be null");
