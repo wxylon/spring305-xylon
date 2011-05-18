@@ -67,12 +67,10 @@ import java.util.Properties;
 public class DefaultPropertiesPersister implements PropertiesPersister {
 
 	// Determine whether Properties.load(Reader) is available (on JDK 1.6+)
-	private static final boolean loadFromReaderAvailable =
-			ClassUtils.hasMethod(Properties.class, "load", new Class[] {Reader.class});
+	private static final boolean loadFromReaderAvailable = ClassUtils.hasMethod(Properties.class, "load", new Class[] {Reader.class});
 
 	// Determine whether Properties.store(Writer, String) is available (on JDK 1.6+)
-	private static final boolean storeToWriterAvailable =
-			ClassUtils.hasMethod(Properties.class, "store", new Class[] {Writer.class, String.class});
+	private static final boolean storeToWriterAvailable = ClassUtils.hasMethod(Properties.class, "store", new Class[] {Writer.class, String.class});
 
 
 	public void load(Properties props, InputStream is) throws IOException {
@@ -97,6 +95,7 @@ public class DefaultPropertiesPersister implements PropertiesPersister {
 			if (line == null) {
 				return;
 			}
+			//
 			line = StringUtils.trimLeadingWhitespace(line);
 			if (line.length() > 0) {
 				char firstChar = line.charAt(0);
@@ -122,6 +121,11 @@ public class DefaultPropertiesPersister implements PropertiesPersister {
 		}
 	}
 
+	/**
+	 * 测试
+	 * @param line
+	 * @return
+	 */
 	protected boolean endsWithContinuationMarker(String line) {
 		boolean evenSlashCount = true;
 		int index = line.length() - 1;
@@ -253,5 +257,6 @@ public class DefaultPropertiesPersister implements PropertiesPersister {
 			throw new IOException("Cannot store properties XML file - not running on JDK 1.5+: " + err.getMessage());
 		}
 	}
-
+	
+	
 }
