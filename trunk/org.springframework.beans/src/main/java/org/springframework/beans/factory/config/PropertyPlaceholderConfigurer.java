@@ -104,18 +104,16 @@ public class PropertyPlaceholderConfigurer extends PropertyResourceConfigurer
 	public static final String DEFAULT_VALUE_SEPARATOR = ":";
 
 
-	/** Never check system properties. */
+	/** 从来不检查系统 properties. */
 	public static final int SYSTEM_PROPERTIES_MODE_NEVER = 0;
 
 	/**
-	 * Check system properties if not resolvable in the specified properties.
-	 * This is the default.
+	 * 没有找到精确的properties的情况下，查找系统 properties
 	 */
 	public static final int SYSTEM_PROPERTIES_MODE_FALLBACK = 1;
 
 	/**
-	 * Check system properties first, before trying the specified properties.
-	 * This allows system properties to override any other property source.
+	 * 在查找 精确的properties前,先查找系统 properties
 	 */
 	public static final int SYSTEM_PROPERTIES_MODE_OVERRIDE = 2;
 
@@ -129,7 +127,8 @@ public class PropertyPlaceholderConfigurer extends PropertyResourceConfigurer
 	private String valueSeparator = DEFAULT_VALUE_SEPARATOR;
 
 	private int systemPropertiesMode = SYSTEM_PROPERTIES_MODE_FALLBACK;
-
+	
+	//可否使用环境变量
 	private boolean searchSystemEnvironment = true;
 
 	private boolean ignoreUnresolvablePlaceholders = false;
@@ -394,8 +393,7 @@ public class PropertyPlaceholderConfigurer extends PropertyResourceConfigurer
 		private final PlaceholderResolver resolver;
 
 		public PlaceholderResolvingStringValueResolver(Properties props) {
-			this.helper = new PropertyPlaceholderHelper(
-					placeholderPrefix, placeholderSuffix, valueSeparator, ignoreUnresolvablePlaceholders);
+			this.helper = new PropertyPlaceholderHelper(placeholderPrefix, placeholderSuffix, valueSeparator, ignoreUnresolvablePlaceholders);
 			this.resolver = new PropertyPlaceholderConfigurerResolver(props);
 		}
 
