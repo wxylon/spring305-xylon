@@ -215,7 +215,7 @@ public abstract class StringUtils {
 	}
 
 	/**
-	 * Trim leading whitespace from the given String.
+	 * 去掉指定字符串头部的	空白字符
 	 * @param str the String to check
 	 * @return the trimmed String
 	 * @see java.lang.Character#isWhitespace
