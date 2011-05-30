@@ -15,6 +15,10 @@
     <property name="beta" ref="beta"/>
   </bean>
 
+<!-- 
+	用来进行实例化的实例工厂方法位于另外一个已有的bean中，容器将调用该bean的工厂方法来创建一个新的bean实例
+	http://doc.javanb.com/spring-framework-reference-zh-2-0-5/ch03s02.html
+-->
   <bean id="gammaFactory" factory-bean="betaFactory" factory-method="getGamma"/>
 
   <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
