@@ -430,5 +430,10 @@ public abstract class BeanFactoryUtils {
 			throw new NoSuchBeanDefinitionException(type, "expected single bean but found " + beansOfType.size());
 		}
 	}
+	
+	
+	public static void main(String[] args) {
+		System.out.println(BeanFactoryUtils.transformedBeanName("dsd"));
+	}
 
 }
