@@ -70,8 +70,8 @@ public abstract class StringUtils {
 	//---------------------------------------------------------------------
 
 	/**
-	 * Check that the given CharSequence is neither <code>null</code> nor of length 0.
-	 * Note: Will return <code>true</code> for a CharSequence that purely consists of whitespace.
+	 * 检查该字符串是否为 <code>null</code> 或者 长度为 0
+	 * 如果该字符串完全为 空格 whitespace. 则 返回true
 	 * <p><pre>
 	 * StringUtils.hasLength(null) = false
 	 * StringUtils.hasLength("") = false
@@ -87,11 +87,17 @@ public abstract class StringUtils {
 	}
 
 	/**
-	 * Check that the given String is neither <code>null</code> nor of length 0.
-	 * Note: Will return <code>true</code> for a String that purely consists of whitespace.
-	 * @param str the String to check (may be <code>null</code>)
-	 * @return <code>true</code> if the String is not null and has length
-	 * @see #hasLength(CharSequence)
+	 * 检查该字符串是否为 <code>null</code> 或者 长度为 0
+	 * 如果该字符串完全为 空格 whitespace. 则 返回true
+	 * <p><pre>
+	 * StringUtils.hasLength(null) = false
+	 * StringUtils.hasLength("") = false
+	 * StringUtils.hasLength(" ") = true
+	 * StringUtils.hasLength("Hello") = true
+	 * </pre>
+	 * @param str the CharSequence to check (may be <code>null</code>)
+	 * @return <code>true</code> if the CharSequence is not null and has length
+	 * @see #hasText(String)
 	 */
 	public static boolean hasLength(String str) {
 		return hasLength((CharSequence) str);
@@ -365,12 +371,11 @@ public abstract class StringUtils {
 	}
 
 	/**
-	 * Replace all occurences of a substring within a string with
-	 * another string.
-	 * @param inString String to examine
-	 * @param oldPattern String to replace
-	 * @param newPattern String to insert
-	 * @return a String with the replacements
+	 * 用新字符串 <b>newPattern</b> 替换  <b>inString</b> 中出现过的所有子串 <b>oldPattern</b>
+	 * @param inString		输入字符串
+	 * @param oldPattern	被替换子串
+	 * @param newPattern	替换后的子串
+	 * @return				替换后的字符串
 	 */
 	public static String replace(String inString, String oldPattern, String newPattern) {
 		if (!hasLength(inString) || !hasLength(oldPattern) || newPattern == null) {
@@ -401,9 +406,10 @@ public abstract class StringUtils {
 	public static String delete(String inString, String pattern) {
 		return replace(inString, pattern, "");
 	}
-
+	
 	/**
-	 * Delete any character in a given String.
+	 * 从 inString 中删除 charsToDelete 所包含的任意一个字符
+	 * E.g.	charsToDelete = "abs" 将会删除inString中包含的 a， b， s 字符
 	 * @param inString the original String
 	 * @param charsToDelete a set of characters to delete.
 	 * E.g. "az\n" will delete 'a's, 'z's and new lines.
@@ -582,6 +588,7 @@ public abstract class StringUtils {
 		if (path == null) {
 			return null;
 		}
+		//将windows的“\” 替换为“/”
 		String pathToUse = replace(path, WINDOWS_FOLDER_SEPARATOR, FOLDER_SEPARATOR);
 
 		// Strip prefix from path to analyze, to not treat it as part of the
@@ -955,6 +962,7 @@ public abstract class StringUtils {
 	}
 
 	/**
+	 * 分割字符串
 	 * Take a String which is a delimited list and convert it to a String array.
 	 * <p>A single delimiter can consists of more than one character: It will still
 	 * be considered as single delimiter string, rather than as bunch of potential
@@ -970,6 +978,7 @@ public abstract class StringUtils {
 	}
 
 	/**
+	 * 分割字符串，并且删除包含的指定字符
 	 * Take a String which is a delimited list and convert it to a String array.
 	 * <p>A single delimiter can consists of more than one character: It will still
 	 * be considered as single delimiter string, rather than as bunch of potential
