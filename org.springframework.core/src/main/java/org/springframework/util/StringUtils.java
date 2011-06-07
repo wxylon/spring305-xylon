@@ -597,15 +597,17 @@ public abstract class StringUtils {
 		// strip the first "core" directory while keeping the "file:" prefix.
 		int prefixIndex = pathToUse.indexOf(":");
 		String prefix = "";
+		//将该路径以	<b>:</b>	分割
 		if (prefixIndex != -1) {
 			prefix = pathToUse.substring(0, prefixIndex + 1);
 			pathToUse = pathToUse.substring(prefixIndex + 1);
 		}
+		//分割后的字符串后半部分包含	<b>/</b> 则归到前半部分
 		if (pathToUse.startsWith(FOLDER_SEPARATOR)) {
 			prefix = prefix + FOLDER_SEPARATOR;
 			pathToUse = pathToUse.substring(1);
 		}
-
+		// 以<b>/</b> 将后半部分分割为数组
 		String[] pathArray = delimitedListToStringArray(pathToUse, FOLDER_SEPARATOR);
 		List<String> pathElements = new LinkedList<String>();
 		int tops = 0;
@@ -962,7 +964,7 @@ public abstract class StringUtils {
 	}
 
 	/**
-	 * 分割字符串
+	 * 按照指定分隔符分割字符串 <br/>
 	 * Take a String which is a delimited list and convert it to a String array.
 	 * <p>A single delimiter can consists of more than one character: It will still
 	 * be considered as single delimiter string, rather than as bunch of potential
@@ -1121,5 +1123,4 @@ public abstract class StringUtils {
 	public static String arrayToCommaDelimitedString(Object[] arr) {
 		return arrayToDelimitedString(arr, ",");
 	}
-
 }
