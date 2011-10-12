@@ -1,3 +1,4 @@
+package com.xylon.propertyEditor;
 import java.util.Date;
 
 public class Person {
@@ -5,10 +6,8 @@ public class Person {
 	private String name;
 	private String adddress;
 	private Date birthday;
+	private String date;
 
-	/**
-	 * fdfdfdfdfd
-	 */
 	public Person() {
 	}
 
@@ -39,6 +38,12 @@ public class Person {
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
-	
-	
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
 }
