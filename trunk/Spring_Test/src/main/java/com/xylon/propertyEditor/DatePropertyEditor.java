@@ -1,8 +1,15 @@
+package com.xylon.propertyEditor;
 import java.beans.PropertyEditorSupport;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DatePropertyEditor extends PropertyEditorSupport {
+	@Override
+	public void setValue(Object arg0) {
+		System.out.println("setValue--->"+arg0);
+		Date date = (Date)arg0;
+		super.setValue(new Date(date.getYear(), date.getMonth(), date.getDate()));
+	}
 
 	public void setAsText(String text) throws IllegalArgumentException {
 		System.out.println("setAsText--->"+text);
