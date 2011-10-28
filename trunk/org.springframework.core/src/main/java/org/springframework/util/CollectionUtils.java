@@ -25,9 +25,7 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * Miscellaneous collection utility methods.
- * Mainly for internal use within the framework.
- *
+ * Collection 集合工具类
  * @author Juergen Hoeller
  * @author Rob Harrop
  * @since 1.1.3
@@ -35,42 +33,36 @@ import java.util.Properties;
 public abstract class CollectionUtils {
 
 	/**
-	 * Return <code>true</code> if the supplied Collection is <code>null</code>
-	 * or empty. Otherwise, return <code>false</code>.
-	 * @param collection the Collection to check
-	 * @return whether the given Collection is empty
+	 * Collection 判空。为空返回true
+	 * @param collection	collection
+	 * @return
 	 */
 	public static boolean isEmpty(Collection collection) {
 		return (collection == null || collection.isEmpty());
 	}
 
 	/**
-	 * Return <code>true</code> if the supplied Map is <code>null</code>
-	 * or empty. Otherwise, return <code>false</code>.
-	 * @param map the Map to check
-	 * @return whether the given Map is empty
+	 * Map 判空。为空返回true
+	 * @param map	map
+	 * @return
 	 */
 	public static boolean isEmpty(Map map) {
 		return (map == null || map.isEmpty());
 	}
 
 	/**
-	 * Convert the supplied array into a List. A primitive array gets
-	 * converted into a List of the appropriate wrapper type.
-	 * <p>A <code>null</code> source value will be converted to an
-	 * empty List.
-	 * @param source the (potentially primitive) array
-	 * @return the converted List result
-	 * @see ObjectUtils#toObjectArray(Object)
+	 * 将数组转换为list
+	 * @param source	该source必须为数组类型。可以为空
+	 * @return
 	 */
 	public static List arrayToList(Object source) {
 		return Arrays.asList(ObjectUtils.toObjectArray(source));
 	}
 
 	/**
-	 * Merge the given array into the given Collection.
-	 * @param array the array to merge (may be <code>null</code>)
-	 * @param collection the target Collection to merge the array into
+	 * 将数组合并至集合对象中
+	 * @param array			该数组可以为空。但是必须是数组，否则报错
+	 * @param collection	该集合必须不为空<b>NULL</b>
 	 */
 	@SuppressWarnings("unchecked")
 	public static void mergeArrayIntoCollection(Object array, Collection collection) {
@@ -84,12 +76,9 @@ public abstract class CollectionUtils {
 	}
 
 	/**
-	 * Merge the given Properties instance into the given Map,
-	 * copying all properties (key-value pairs) over.
-	 * <p>Uses <code>Properties.propertyNames()</code> to even catch
-	 * default properties linked into the original Properties instance.
-	 * @param props the Properties instance to merge (may be <code>null</code>)
-	 * @param map the target Map to merge the properties into
+	 * 将 props中的值 合并至 map中
+	 * @param props	props
+	 * @param map	必须非空
 	 */
 	@SuppressWarnings("unchecked")
 	public static void mergePropertiesIntoMap(Properties props, Map map) {
@@ -111,10 +100,10 @@ public abstract class CollectionUtils {
 
 
 	/**
-	 * Check whether the given Iterator contains the given element.
-	 * @param iterator the Iterator to check
-	 * @param element the element to look for
-	 * @return <code>true</code> if found, <code>false</code> else
+	 * 查找迭代器中是否包含指定对象
+	 * @param iterator	迭代器
+	 * @param element	查找的对象
+	 * @return
 	 */
 	public static boolean contains(Iterator iterator, Object element) {
 		if (iterator != null) {
@@ -129,10 +118,10 @@ public abstract class CollectionUtils {
 	}
 
 	/**
-	 * Check whether the given Enumeration contains the given element.
-	 * @param enumeration the Enumeration to check
-	 * @param element the element to look for
-	 * @return <code>true</code> if found, <code>false</code> else
+	 * 查找枚举类型中是否包含指定对象
+	 * @param iterator	枚举类型
+	 * @param element	查找的对象
+	 * @return
 	 */
 	public static boolean contains(Enumeration enumeration, Object element) {
 		if (enumeration != null) {
@@ -147,16 +136,15 @@ public abstract class CollectionUtils {
 	}
 
 	/**
-	 * Check whether the given Collection contains the given element instance.
-	 * <p>Enforces the given instance to be present, rather than returning
-	 * <code>true</code> for an equal element as well.
-	 * @param collection the Collection to check
-	 * @param element the element to look for
-	 * @return <code>true</code> if found, <code>false</code> else
+	 * 查找集合中是否包含指定的对象（为同一块内存地址对象）
+	 * @param collection	集合
+	 * @param element		指定对象
+	 * @return
 	 */
 	public static boolean containsInstance(Collection collection, Object element) {
 		if (collection != null) {
 			for (Object candidate : collection) {
+				//同一块内存地址
 				if (candidate == element) {
 					return true;
 				}
@@ -165,12 +153,13 @@ public abstract class CollectionUtils {
 		return false;
 	}
 
+	
 	/**
-	 * Return <code>true</code> if any element in '<code>candidates</code>' is
-	 * contained in '<code>source</code>'; otherwise returns <code>false</code>.
-	 * @param source the source Collection
-	 * @param candidates the candidates to search for
-	 * @return whether any of the candidates has been found
+	 * 查找source集合中是否包含candidates集合中的某一个对象，只要包含就返回true
+	 * <br/>任一个集合为空，返回false
+	 * @param source		被查找的集合
+	 * @param candidates	需查找的集合
+	 * @return
 	 */
 	public static boolean containsAny(Collection source, Collection candidates) {
 		if (isEmpty(source) || isEmpty(candidates)) {
@@ -185,13 +174,10 @@ public abstract class CollectionUtils {
 	}
 
 	/**
-	 * Return the first element in '<code>candidates</code>' that is contained in
-	 * '<code>source</code>'. If no element in '<code>candidates</code>' is present in
-	 * '<code>source</code>' returns <code>null</code>. Iteration order is
-	 * {@link Collection} implementation specific.
-	 * @param source the source Collection
-	 * @param candidates the candidates to search for
-	 * @return the first present object, or <code>null</code> if not found
+	 * candidates集合在source集合中存在的第一个对象
+	 * @param source		被查找的集合
+	 * @param candidates	需查找的集合
+	 * @return
 	 */
 	public static Object findFirstMatch(Collection source, Collection candidates) {
 		if (isEmpty(source) || isEmpty(candidates)) {

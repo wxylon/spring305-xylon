@@ -172,16 +172,16 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	private final List<BeanFactoryPostProcessor> beanFactoryPostProcessors =
 			new ArrayList<BeanFactoryPostProcessor>();
 
-	/** System time in milliseconds when this context started */
+	/** 该容器的启动时间*/
 	private long startupDate;
 
-	/** Flag that indicates whether this context is currently active */
+	/** 标识系统是否启动 */
 	private boolean active = false;
 
 	/** Flag that indicates whether this context has been closed already */
 	private boolean closed = false;
 
-	/** Synchronization monitor for the "active" flag */
+	/** 同步启动标识 只有一个线程启动该容器*/
 	private final Object activeMonitor = new Object();
 
 	/** Synchronization monitor for the "refresh" and "destroy" */
@@ -390,13 +390,14 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	public void refresh() throws BeansException, IllegalStateException {
 		synchronized (this.startupShutdownMonitor) {
+			//准备容器刷新
 			// Prepare this context for refreshing.
 			prepareRefresh();
-
+			//创建beanFactory
 			// Tell the subclass to refresh the internal bean factory.
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
-			// Prepare the bean factory for use in this context.
+			//下面对使用的Bean工厂进行配置，这里使用DefaultListableBeanFactory
 			prepareBeanFactory(beanFactory);
 
 			try {
@@ -404,9 +405,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				postProcessBeanFactory(beanFactory);
 
 				// Invoke factory processors registered as beans in the context.
+				// 这里对工厂后处理器进行触发	
 				invokeBeanFactoryPostProcessors(beanFactory);
 
 				// Register bean processors that intercept bean creation.
+				// 这里注册Bean的后处理器，因为虽然Bean定义信息被载入了，但是Bean本身并没有被创建完成。
 				registerBeanPostProcessors(beanFactory);
 
 				// Initialize message source for this context.
@@ -458,12 +461,13 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 	/**
-	 * Tell the subclass to refresh the internal bean factory.
+	 * 创建beanFactory
 	 * @return the fresh BeanFactory instance
 	 * @see #refreshBeanFactory()
 	 * @see #getBeanFactory()
 	 */
 	protected ConfigurableListableBeanFactory obtainFreshBeanFactory() {
+		// 这里初始化IOC容器，其中包括了对Bean定义信息的载入
 		refreshBeanFactory();
 		ConfigurableListableBeanFactory beanFactory = getBeanFactory();
 		if (logger.isDebugEnabled()) {
@@ -473,6 +477,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 	/**
+	 * <p>配置标准的工厂bean参数</p>
 	 * Configure the factory's standard context characteristics,
 	 * such as the context's ClassLoader and post-processors.
 	 * @param beanFactory the BeanFactory to configure

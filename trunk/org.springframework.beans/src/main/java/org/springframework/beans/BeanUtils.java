@@ -86,6 +86,7 @@ public abstract class BeanUtils {
 	}
 
 	/**
+	 * 返回指定类型的实例<br/>
 	 * Convenience method to instantiate a class using its no-arg constructor.
 	 * As this method doesn't try to load classes by name, it should avoid
 	 * class-loading issues.
@@ -109,6 +110,7 @@ public abstract class BeanUtils {
 	}
 
 	/**
+	 * 根据构造器，指定的构造函数参数，返回该类的实例
 	 * Convenience method to instantiate a class using the given constructor.
 	 * As this method doesn't try to load classes by name, it should avoid
 	 * class-loading issues.

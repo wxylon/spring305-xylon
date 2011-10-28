@@ -16,6 +16,7 @@ public class Test {
 		try {
 			context = new FileSystemXmlApplicationContext(resource.getFile().getPath());
 	        Company c=(Company)context.getBean("company");
+	        c=(Company)context.getBean("company");
 	        System.out.println(c.getDirector().getName()+"*"+c.getDirector().getAge());
 		} catch (BeansException e) {
 			e.printStackTrace();

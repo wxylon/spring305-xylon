@@ -27,6 +27,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.util.StringValueResolver;
 
 /**
+ * 实现的是AliasRegistry，也就是提供了别名的注册场所。
  * Simple implementation of the {@link AliasRegistry} interface.
  * Serves as base class for
  * {@link org.springframework.beans.factory.support.BeanDefinitionRegistry}
@@ -37,10 +38,14 @@ import org.springframework.util.StringValueResolver;
  */
 public class SimpleAliasRegistry implements AliasRegistry {
 
-	/** Map from alias to canonical name */
+	/** aliasMap<alias, name> key 为别名，value 为实际名 */
 	private final Map<String, String> aliasMap = new ConcurrentHashMap<String, String>();
 
 
+	/**
+	 * name 是否和 alias 相等，如果相等，就把存储器中的 alias 删除。
+	 * 然后，其内部还定义了一个 allowAliasOverriding 的方法来判断是否允许覆盖。子类可以复写此方法，调整其策略
+	 */
 	public void registerAlias(String name, String alias) {
 		Assert.hasText(name, "'name' must not be empty");
 		Assert.hasText(alias, "'alias' must not be empty");
@@ -61,13 +66,15 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	}
 
 	/**
-	 * Return whether alias overriding is allowed.
-	 * Default is <code>true</code>.
+	 * 判断是否允许覆盖别名,默认为<code>true</code>
 	 */
 	protected boolean allowAliasOverriding() {
 		return true;
 	}
 
+	/**
+	 * 删除别名
+	 */
 	public void removeAlias(String alias) {
 		String name = this.aliasMap.remove(alias);
 		if (name == null) {
@@ -75,10 +82,16 @@ public class SimpleAliasRegistry implements AliasRegistry {
 		}
 	}
 
+	/**
+	 * 是否为别名
+	 */
 	public boolean isAlias(String name) {
 		return this.aliasMap.containsKey(name);
 	}
 
+	/**
+	 * 递归查找名称为指定名称的所有别名
+	 */
 	public String[] getAliases(String name) {
 		List<String> result = new ArrayList<String>();
 		synchronized (this.aliasMap) {
@@ -141,7 +154,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	}
 
 	/**
-	 * Determine the raw name, resolving aliases to canonical names.
+	 * 在别名注册Map中查找key为name的原始名称,并返回value值
 	 * @param name the user-specified name
 	 * @return the transformed name
 	 */
@@ -160,11 +173,10 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	}
 
 	/**
-	 * Check whether the given name points back to given alias as an alias
-	 * in the other direction, catching a circular reference upfront and
-	 * throwing a corresponding IllegalStateException.
-	 * @param name the candidate name
-	 * @param alias the candidate alias
+	 * 在别名注册Map中查找key为name的原始名称,
+	 * 并判断返回value值是否与当前的别名相同。如果相同，就抛出异常
+	 * @param name 		bean名称
+	 * @param alias 	别名
 	 * @see #registerAlias
 	 */
 	protected void checkForAliasCircle(String name, String alias) {

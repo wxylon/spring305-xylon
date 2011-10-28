@@ -403,6 +403,7 @@ public abstract class ReflectionUtils {
 	}
 
 	/**
+	 * 对构造器修饰符判别。并强行设置为可以访问
 	 * Make the given constructor accessible, explicitly setting it accessible
 	 * if necessary. The <code>setAccessible(true)</code> method is only called
 	 * when actually necessary, to avoid unnecessary conflicts with a JVM
