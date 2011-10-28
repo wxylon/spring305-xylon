@@ -425,9 +425,9 @@ public class ConstructorArgumentValues {
 	 * attribute indicating the target type of the actual constructor argument.
 	 */
 	public static class ValueHolder implements BeanMetadataElement {
-
+		//值
 		private Object value;
-
+		//值的类型
 		private String type;
 
 		private String name;

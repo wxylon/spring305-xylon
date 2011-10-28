@@ -121,6 +121,7 @@ public class FileSystemXmlApplicationContext extends AbstractXmlApplicationConte
 	}
 
 	/**
+	 * 这个refresh调用时容器的初始化调用入口
 	 * Create a new FileSystemXmlApplicationContext with the given parent,
 	 * loading the definitions from the given XML files.
 	 * @param configLocations array of file paths

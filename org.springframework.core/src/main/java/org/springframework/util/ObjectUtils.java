@@ -146,29 +146,31 @@ public abstract class ObjectUtils {
 	}
 
 	/**
-	 * Convert the given array (which may be a primitive array) to an
-	 * object array (if necessary of primitive wrapper objects).
-	 * <p>A <code>null</code> source value will be converted to an
-	 * empty Object array.
-	 * @param source the (potentially primitive) array
-	 * @return the corresponding object array (never <code>null</code>)
-	 * @throws IllegalArgumentException if the parameter is not an array
+	 * 将任意数组类型转换为object类型的数组
+	 * @param source
+	 * @return
 	 */
 	public static Object[] toObjectArray(Object source) {
+		//本身为数组类型
 		if (source instanceof Object[]) {
 			return (Object[]) source;
 		}
+		//为空
 		if (source == null) {
 			return new Object[0];
 		}
+		//不是数组类型就抛异常
 		if (!source.getClass().isArray()) {
 			throw new IllegalArgumentException("Source is not an array: " + source);
 		}
+		//是数组类型
 		int length = Array.getLength(source);
 		if (length == 0) {
 			return new Object[0];
 		}
+		//取数组中存放的对象的类型
 		Class wrapperType = Array.get(source, 0).getClass();
+		//动态创建数组
 		Object[] newArray = (Object[]) Array.newInstance(wrapperType, length);
 		for (int i = 0; i < length; i++) {
 			newArray[i] = Array.get(source, i);
@@ -177,20 +179,15 @@ public abstract class ObjectUtils {
 	}
 
 
-	//---------------------------------------------------------------------
-	// Convenience methods for content-based equality/hash-code handling
-	//---------------------------------------------------------------------
-
 	/**
-	 * Determine if the given objects are equal, returning <code>true</code>
-	 * if both are <code>null</code> or <code>false</code> if only one is
-	 * <code>null</code>.
-	 * <p>Compares arrays with <code>Arrays.equals</code>, performing an equality
-	 * check based on the array elements rather than the array reference.
-	 * @param o1 first Object to compare
-	 * @param o2 second Object to compare
-	 * @return whether the given objects are equal
-	 * @see java.util.Arrays#equals
+	 * 比较俩个对象是否可以认为相等。
+	 * </br>o1 == o2 返回true
+	 * </br>o1 == null || o2 == null 返回false
+	 * </br>o1.equals(o2) 返回true
+	 * </br>如果俩个对象都为数组类型，则比较俩个数组是否相等
+	 * @param o1
+	 * @param o2
+	 * @return
 	 */
 	public static boolean nullSafeEquals(Object o1, Object o2) {
 		if (o1 == o2) {

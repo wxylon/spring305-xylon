@@ -116,10 +116,13 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	/** Optional id for this factory, for serialization purposes */
 	private String serializationId;
 
-	/** Whether to allow re-registration of a different definition with the same name */
+	/*是否容许相同的名称的BeanDefinition是被注册
+	 * 如果为true,则出现相同名称的情况下，打印debug日志
+	 * 如果为false，则出现相同名称的情况下，抛BeanDefinitionStoreException
+	 * */
 	private boolean allowBeanDefinitionOverriding = true;
 
-	/** Whether to allow eager class loading even for lazy-init beans */
+	/** 这里对是不是预实例化进行控制*/
 	private boolean allowEagerClassLoading = true;
 
 	/** Resolver to use for checking if a bean definition is an autowire candidate */
@@ -128,10 +131,10 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	/** Map from dependency type to corresponding autowired value */
 	private final Map<Class, Object> resolvableDependencies = new HashMap<Class, Object>();
 
-	/** Map of bean definition objects, keyed by bean name */
+	/** 这里就是存放载入Bean定义信息的地方，以Bean的名字作为key来检索Bean定义信息 */
 	private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<String, BeanDefinition>();
 
-	/** List of bean definition names, in registration order */
+	/** 这个列表保存经过排序的Bean的名字 */
 	private final List<String> beanDefinitionNames = new ArrayList<String>();
 
 	/** Whether bean definition metadata may be cached for all beans */

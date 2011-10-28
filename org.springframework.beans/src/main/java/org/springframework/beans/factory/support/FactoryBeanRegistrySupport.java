@@ -42,11 +42,11 @@ import org.springframework.beans.factory.FactoryBeanNotInitializedException;
  */
 public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanRegistry {
 
-	/** Cache of singleton objects created by FactoryBeans: FactoryBean name --> object */
+	/** 单例工厂bean缓存: FactoryBean name --> object */
 	private final Map<String, Object> factoryBeanObjectCache = new ConcurrentHashMap<String, Object>();
 
 
-	/**
+	/**--*
 	 * Determine the type for the given FactoryBean.
 	 * @param factoryBean the FactoryBean instance to check
 	 * @return the FactoryBean's object type,
@@ -74,9 +74,8 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 	}
 
 	/**
-	 * Obtain an object to expose from the given FactoryBean, if available
-	 * in cached form. Quick check for minimal synchronization.
-	 * @param beanName the name of the bean
+	 * 根据bean名称获得缓存的工厂bean
+	 * @param beanName bean名称
 	 * @return the object obtained from the FactoryBean,
 	 * or <code>null</code> if not available
 	 */

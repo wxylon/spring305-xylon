@@ -129,6 +129,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 				if (node instanceof Element) {
 					Element ele = (Element) node;
 					if (delegate.isDefaultNamespace(ele)) {
+						//这里对Spring定义的默认元素进行解析，包括Bean，Import等等
 						parseDefaultElement(ele, delegate);
 					}
 					else {

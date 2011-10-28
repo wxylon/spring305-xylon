@@ -1,19 +1,3 @@
-/*
- * Copyright 2002-2010 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package org.springframework.beans.factory.support;
 
 import java.util.Collections;
@@ -73,6 +57,7 @@ import org.springframework.util.StringUtils;
 public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements SingletonBeanRegistry {
 
 	/**
+	 * 内部标记为一个空的单例对象： 并发 Maps( 不支持空值 )作为标志值。 
 	 * Internal marker for a null singleton object:
 	 * used as marker value for concurrent Maps (which don't support null values).
 	 */
@@ -81,41 +66,59 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 
 	/** Logger available to subclasses */
 	protected final Log logger = LogFactory.getLog(getClass());
-
+	
+	/** 存放singleton对象的缓存 : bean name --> bean instance */
 	/** Cache of singleton objects: bean name --> bean instance */
 	private final Map<String, Object> singletonObjects = new ConcurrentHashMap<String, Object>();
 
+	/** 存放制造singleton的工厂对象的缓存: bean name --> ObjectFactory */
 	/** Cache of singleton factories: bean name --> ObjectFactory */
 	private final Map<String, ObjectFactory> singletonFactories = new HashMap<String, ObjectFactory>();
 
+	/** 存放singletonFactory 制造出来的 singleton 的缓存: bean name --> bean instance */
 	/** Cache of early singleton objects: bean name --> bean instance */
 	private final Map<String, Object> earlySingletonObjects = new HashMap<String, Object>();
 
+	/** 就是单例注册表 */
 	/** Set of registered singletons, containing the bean names in registration order */
 	private final Set<String> registeredSingletons = new LinkedHashSet<String>(16);
 
+	/** 目前正在创建中的单例bean的名称的集合 */
 	/** Names of beans that are currently in creation */
 	private final Set<String> singletonsCurrentlyInCreation = Collections.synchronizedSet(new HashSet<String>());
 
+	/** 存放异常出现的相关的原因的集合 */
 	/** List of suppressed Exceptions, available for associating related causes */
 	private Set<Exception> suppressedExceptions;
 
+	/** 标志，指示我们目前是否在销毁单例中 */
 	/** Flag that indicates whether we're currently within destroySingletons */
 	private boolean singletonsCurrentlyInDestruction = false;
 
+	/** 存放一次性bean的缓存: bean name --> disposable instance */
 	/** Disposable bean instances: bean name --> disposable instance */
 	private final Map<String, Object> disposableBeans = new LinkedHashMap<String, Object>();
 
+	/**外部bean与被包含在外部bean的所有内部bean集合包含关系的缓存: bean name --> Set of bean names that the bean contains */
 	/** Map between containing bean names: bean name --> Set of bean names that the bean contains */
 	private final Map<String, Set<String>> containedBeanMap = new ConcurrentHashMap<String, Set<String>>();
 
+	/** 指定bean与依赖指定bean的所有bean的依赖关系的缓存: bean name --> Set of dependent bean names */
 	/** Map between dependent bean names: bean name --> Set of dependent bean names */
 	private final Map<String, Set<String>> dependentBeanMap = new ConcurrentHashMap<String, Set<String>>();
 
+	/** 指定bean与创建这个bean所需要依赖的所有bean的依赖关系的缓存: bean name --> Set of bean names for the bean's dependencies */
 	/** Map between depending bean names: bean name --> Set of bean names for the bean's dependencies */
 	private final Map<String, Set<String>> dependenciesForBeanMap = new ConcurrentHashMap<String, Set<String>>();
-
-
+	
+	/**
+	 * 注册单例bean,如果已经包含该singletonObject,则抛 IllegalStateException
+	 * 不包含该singletonObject的情况下，执行添加操作
+	 * @param beanName
+	 * @param singletonObject
+	 * 2011-10-27
+	 * @author wangx
+	 */
 	public void registerSingleton(String beanName, Object singletonObject) throws IllegalStateException {
 		Assert.notNull(beanName, "'beanName' must not be null");
 		synchronized (this.singletonObjects) {
@@ -129,10 +132,15 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	}
 
 	/**
-	 * Add the given singleton object to the singleton cache of this factory.
-	 * <p>To be called for eager registration of singletons.
-	 * @param beanName the name of the bean
-	 * @param singletonObject the singleton object
+	 * 注册bean的过程包括：首先同步singletonObjects<br/>
+	 * singletonObjects 添加缓存对象;<br/>
+	 * singletonFactories 删除工厂bean;<br/>
+	 * earlySingletonObjects 删除早期bean;<br/>
+	 * registeredSingletons 添加bean名称;<br/>
+	 * @param beanName
+	 * @param singletonObject
+	 * 2011-10-27
+	 * @author wangx
 	 */
 	protected void addSingleton(String beanName, Object singletonObject) {
 		synchronized (this.singletonObjects) {
@@ -144,10 +152,11 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	}
 
 	/**
-	 * Add the given singleton factory for building the specified singleton
-	 * if necessary.
-	 * <p>To be called for eager registration of singletons, e.g. to be able to
-	 * resolve circular references.
+	 * 注册工厂bean的过程包括：首先同步singletonObjects<br/>
+	 * 在singletonObjects中不包含该bean的情况下执行添加操作,
+	 * singletonFactories 注册bean工厂;<br/>
+	 * earlySingletonObjects 删除早期bean;<br/>
+	 * registeredSingletons 添加bean名称;<br/>
 	 * @param beanName the name of the bean
 	 * @param singletonFactory the factory for the singleton object
 	 */
@@ -162,14 +171,25 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 		}
 	}
 
+	/**
+	 * 获得 bean
+	 * @param beanName
+	 * @param singletonObject
+	 * 2011-10-27
+	 * @author wangx
+	 */
 	public Object getSingleton(String beanName) {
 		return getSingleton(beanName, true);
 	}
 
 	/**
-	 * Return the (raw) singleton object registered under the given name.
-	 * <p>Checks already instantiated singletons and also allows for an early
-	 * reference to a currently created singleton (resolving a circular reference).
+	 * 获得单例bean;
+	 * singletonObjects中查找，存在返回该bean，否则
+	 * earlySingletonObjects 中查找，存在返回该bean，否则
+	 * singletonFactories 中查找工厂bean，创建该bean
+	 * 			并earlySingletonObjects 中添加该bean，
+	 * 			singletonFactories删除该工程bean。
+	 * 返回该bean。
 	 * @param beanName the name of the bean to look for
 	 * @param allowEarlyReference whether early references should be created or not
 	 * @return the registered singleton object, or <code>null</code> if none found

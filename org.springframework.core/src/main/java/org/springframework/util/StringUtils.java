@@ -555,17 +555,18 @@ public abstract class StringUtils {
 	}
 
 	/**
-	 * Apply the given relative path to the given path,
-	 * assuming standard Java folder separation (i.e. "/" separators).
-	 * @param path the path to start from (usually a full file path)
-	 * @param relativePath the relative path to apply
-	 * (relative to the full file path above)
-	 * @return the full file path that results from applying the relative path
+	 * 合并为新的路径字符串：旧路径去掉文件名后，将新文件路径追加
+	 * @param path		旧的文件路径
+	 * @param relativePath	新的文件路径。
+	 * @return
 	 */
 	public static String applyRelativePath(String path, String relativePath) {
 		int separatorIndex = path.lastIndexOf(FOLDER_SEPARATOR);
+		//是否为根目录
 		if (separatorIndex != -1) {
+			//去掉文件名，只留目录名，且不包含最后一个文件夹分隔符
 			String newPath = path.substring(0, separatorIndex);
+			//新文件路径开头是否包含分隔符
 			if (!relativePath.startsWith(FOLDER_SEPARATOR)) {
 				newPath += FOLDER_SEPARATOR;
 			}

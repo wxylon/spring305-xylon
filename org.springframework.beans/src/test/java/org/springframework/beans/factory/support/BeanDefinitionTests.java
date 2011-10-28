@@ -27,56 +27,56 @@ import test.beans.TestBean;
  */
 public class BeanDefinitionTests extends TestCase {
 
-	public void testBeanDefinitionEquality() {
-		RootBeanDefinition bd = new RootBeanDefinition(TestBean.class);
-		bd.setAbstract(true);
-		bd.setLazyInit(true);
-		bd.setScope("request");
-		RootBeanDefinition otherBd = new RootBeanDefinition(TestBean.class);
-		assertTrue(!bd.equals(otherBd));
-		assertTrue(!otherBd.equals(bd));
-		otherBd.setAbstract(true);
-		otherBd.setLazyInit(true);
-		otherBd.setScope("request");
-		assertTrue(bd.equals(otherBd));
-		assertTrue(otherBd.equals(bd));
-		assertTrue(bd.hashCode() == otherBd.hashCode());
-	}
+//	public void testBeanDefinitionEquality() {
+//		RootBeanDefinition bd = new RootBeanDefinition(TestBean.class);
+//		bd.setAbstract(true);
+//		bd.setLazyInit(true);
+//		bd.setScope("request");
+//		RootBeanDefinition otherBd = new RootBeanDefinition(TestBean.class);
+//		assertTrue(!bd.equals(otherBd));
+//		assertTrue(!otherBd.equals(bd));
+//		otherBd.setAbstract(true);
+//		otherBd.setLazyInit(true);
+//		otherBd.setScope("request");
+//		assertTrue(bd.equals(otherBd));
+//		assertTrue(otherBd.equals(bd));
+//		assertTrue(bd.hashCode() == otherBd.hashCode());
+//	}
 
-	public void testBeanDefinitionEqualityWithPropertyValues() {
-		RootBeanDefinition bd = new RootBeanDefinition(TestBean.class);
-		bd.getPropertyValues().add("name", "myName");
-		bd.getPropertyValues().add("age", "99");
-		RootBeanDefinition otherBd = new RootBeanDefinition(TestBean.class);
-		otherBd.getPropertyValues().add("name", "myName");
-		assertTrue(!bd.equals(otherBd));
-		assertTrue(!otherBd.equals(bd));
-		otherBd.getPropertyValues().add("age", "11");
-		assertTrue(!bd.equals(otherBd));
-		assertTrue(!otherBd.equals(bd));
-		otherBd.getPropertyValues().add("age", "99");
-		assertTrue(bd.equals(otherBd));
-		assertTrue(otherBd.equals(bd));
-		assertTrue(bd.hashCode() == otherBd.hashCode());
-	}
-
-	public void testBeanDefinitionEqualityWithConstructorArguments() {
-		RootBeanDefinition bd = new RootBeanDefinition(TestBean.class);
-		bd.getConstructorArgumentValues().addGenericArgumentValue("test");
-		bd.getConstructorArgumentValues().addIndexedArgumentValue(1, new Integer(5));
-		RootBeanDefinition otherBd = new RootBeanDefinition(TestBean.class);
-		otherBd.getConstructorArgumentValues().addGenericArgumentValue("test");
-		assertTrue(!bd.equals(otherBd));
-		assertTrue(!otherBd.equals(bd));
-		otherBd.getConstructorArgumentValues().addIndexedArgumentValue(1, new Integer(9));
-		assertTrue(!bd.equals(otherBd));
-		assertTrue(!otherBd.equals(bd));
-		otherBd.getConstructorArgumentValues().addIndexedArgumentValue(1, new Integer(5));
-		assertTrue(bd.equals(otherBd));
-		assertTrue(otherBd.equals(bd));
-		assertTrue(bd.hashCode() == otherBd.hashCode());
-	}
-
+//	public void testBeanDefinitionEqualityWithPropertyValues() {
+//		RootBeanDefinition bd = new RootBeanDefinition(TestBean.class);
+//		bd.getPropertyValues().add("name", "myName");
+//		bd.getPropertyValues().add("age", "99");
+//		RootBeanDefinition otherBd = new RootBeanDefinition(TestBean.class);
+//		otherBd.getPropertyValues().add("name", "myName");
+//		assertTrue(!bd.equals(otherBd));
+//		assertTrue(!otherBd.equals(bd));
+//		otherBd.getPropertyValues().add("age", "11");
+//		assertTrue(!bd.equals(otherBd));
+//		assertTrue(!otherBd.equals(bd));
+//		otherBd.getPropertyValues().add("age", "99");
+//		assertTrue(bd.equals(otherBd));
+//		assertTrue(otherBd.equals(bd));
+//		assertTrue(bd.hashCode() == otherBd.hashCode());
+//	}
+//
+//	public void testBeanDefinitionEqualityWithConstructorArguments() {
+//		RootBeanDefinition bd = new RootBeanDefinition(TestBean.class);
+//		bd.getConstructorArgumentValues().addGenericArgumentValue("test");
+//		bd.getConstructorArgumentValues().addIndexedArgumentValue(1, new Integer(5));
+//		RootBeanDefinition otherBd = new RootBeanDefinition(TestBean.class);
+//		otherBd.getConstructorArgumentValues().addGenericArgumentValue("test");
+//		assertTrue(!bd.equals(otherBd));
+//		assertTrue(!otherBd.equals(bd));
+//		otherBd.getConstructorArgumentValues().addIndexedArgumentValue(1, new Integer(9));
+//		assertTrue(!bd.equals(otherBd));
+//		assertTrue(!otherBd.equals(bd));
+//		otherBd.getConstructorArgumentValues().addIndexedArgumentValue(1, new Integer(5));
+//		assertTrue(bd.equals(otherBd));
+//		assertTrue(otherBd.equals(bd));
+//		assertTrue(bd.hashCode() == otherBd.hashCode());
+//	}
+//
 	public void testBeanDefinitionEqualityWithTypedConstructorArguments() {
 		RootBeanDefinition bd = new RootBeanDefinition(TestBean.class);
 		bd.getConstructorArgumentValues().addGenericArgumentValue("test", "int");

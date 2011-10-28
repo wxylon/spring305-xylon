@@ -153,8 +153,10 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	private boolean lenientConstructorResolution = true;
 
+	/*构造函数参数*/
 	private ConstructorArgumentValues constructorArgumentValues;
-
+	
+	/*属性参数*/
 	private MutablePropertyValues propertyValues;
 
 	private MethodOverrides methodOverrides = new MethodOverrides();
