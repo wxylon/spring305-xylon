@@ -1001,8 +1001,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	//---------------------------------------------------------------------
 
 	/**
-	 * 根据原始名称查找对应的实际存放名称
-	 * 去掉name中的特殊字符，并从别名中查找实际存放名。
+	 * 根据name查询该name的原始名称，因为该name可能为别名<br/>
+	 * 首先对name做去<b>&</b>处理，然后从别名集合中查询原始名
 	 * @param name	name
 	 * @return	
 	 */
@@ -1516,6 +1516,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	//---------------------------------------------------------------------
 
 	/**
+	 * 检查 是否包含该bean名称
 	 * Check if this bean factory contains a bean definition with the given name.
 	 * Does not consider any hierarchy this factory may participate in.
 	 * Invoked by <code>containsBean</code> when no cached singleton instance is found.

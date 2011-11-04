@@ -28,6 +28,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 /**
+ * 加载默认的dtd文件为InputSource，并缓存之
  * EntityResolver implementation for the Spring beans DTD,
  * to load the DTD from the Spring class path (or JAR file).
  *

@@ -146,6 +146,7 @@ public class XmlValidationModeDetector {
 	 * the DOCTYPE declaration or the root element of the document.
 	 */
 	private String consumeCommentTokens(String line) {
+		//即时不包含注释的开头，又不包含结束
 		if (line.indexOf(START_COMMENT) == -1 && line.indexOf(END_COMMENT) == -1) {
 			return line;
 		}

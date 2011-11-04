@@ -27,7 +27,7 @@ import org.springframework.core.io.Resource;
  * @since 2.0
  */
 public class ReaderContext {
-
+	
 	private final Resource resource;
 
 	private final ProblemReporter problemReporter;

@@ -35,8 +35,7 @@ public class ComponentBeanDefinitionParserTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		bf = new XmlBeanFactory(new ClassPathResource(
-				"com/foo/component-config.xml"));
+		bf = new XmlBeanFactory(new ClassPathResource("com/foo/component-config.xml"));
 	}
 
 	@AfterClass

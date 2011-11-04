@@ -34,6 +34,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 /**
+ * 加载默认的xsd文件为InputSource，并缓存之
  * {@link EntityResolver} implementation that attempts to resolve schema URLs into
  * local {@link ClassPathResource classpath resources} using a set of mappings files.
  *
