@@ -172,7 +172,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	}
 
 	/**
-	 * 获得 bean
+	 * 获得缓存的单例bean;
 	 * @param beanName
 	 * @param singletonObject
 	 * 2011-10-27
@@ -183,7 +183,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	}
 
 	/**
-	 * 获得单例bean;
+	 * 获得缓存的单例bean;
 	 * singletonObjects中查找，存在返回该bean，否则
 	 * earlySingletonObjects 中查找，存在返回该bean，否则
 	 * singletonFactories 中查找工厂bean，创建该bean
@@ -331,8 +331,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	}
 
 	/**
-	 * Return whether the specified singleton bean is currently in creation
-	 * (within the entire factory).
+	 * 检查是否包含该单例beanName
 	 * @param beanName the name of the bean
 	 */
 	public final boolean isSingletonCurrentlyInCreation(String beanName) {

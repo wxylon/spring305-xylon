@@ -36,6 +36,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
+ * 包括配置文件中bean标签的属性定义信息。
  * Base class for concrete, full-fledged
  * {@link org.springframework.beans.factory.config.BeanDefinition} classes,
  * factoring out common properties of {@link RootBeanDefinition} and

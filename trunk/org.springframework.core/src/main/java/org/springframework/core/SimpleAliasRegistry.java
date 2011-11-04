@@ -154,14 +154,16 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	}
 
 	/**
-	 * 在别名注册Map中查找key为name的原始名称,并返回value值
+	 * 在别名注册Map中递归查找别名的原始名称
 	 * @param name the user-specified name
 	 * @return the transformed name
 	 */
 	public String canonicalName(String name) {
+		//缓存上次查询名称
 		String canonicalName = name;
-		// Handle aliasing...
+		//缓存本次查询名称
 		String resolvedName;
+		//递归查询别名的原始名称
 		do {
 			resolvedName = this.aliasMap.get(canonicalName);
 			if (resolvedName != null) {

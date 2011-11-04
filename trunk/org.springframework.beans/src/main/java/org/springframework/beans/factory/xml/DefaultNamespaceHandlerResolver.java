@@ -60,10 +60,13 @@ public class DefaultNamespaceHandlerResolver implements NamespaceHandlerResolver
 	/** ClassLoader to use for NamespaceHandler classes */
 	private final ClassLoader classLoader;
 
-	/** Resource location to search for */
+	/**当前需要加载的资源文件路径: 默认为：DEFAULT_HANDLER_MAPPINGS_LOCATION*/
 	private final String handlerMappingsLocation;
 
-	/** Stores the mappings from namespace URI to NamespaceHandler class name / instance */
+	/**缓存Map<namespaceURI, NamespaceHandler> 
+	 * 第一次存放的是从文件加载的字符串对象Map<namespaceURI, String> ，
+	 * 当有访问时，将该字符串String加载为NamespaceHandler子类
+	 */
 	private volatile Map<String, Object> handlerMappings;
 
 
@@ -102,22 +105,24 @@ public class DefaultNamespaceHandlerResolver implements NamespaceHandlerResolver
 		this.handlerMappingsLocation = handlerMappingsLocation;
 	}
 
-
 	/**
-	 * Locate the {@link NamespaceHandler} for the supplied namespace URI
-	 * from the configured mappings.
-	 * @param namespaceUri the relevant namespace URI
-	 * @return the located {@link NamespaceHandler}, or <code>null</code> if none found
+	 * 根据给定的命名空间key获取 NamespaceHandler 实例
+	 * @return
+	 * 2011-10-31
+	 * @author wangx
 	 */
 	public NamespaceHandler resolve(String namespaceUri) {
 		Map<String, Object> handlerMappings = getHandlerMappings();
 		Object handlerOrClassName = handlerMappings.get(namespaceUri);
+		/**不存在*/
 		if (handlerOrClassName == null) {
 			return null;
 		}
+		/** 已经是NamespaceHandler的子类，返回该类*/
 		else if (handlerOrClassName instanceof NamespaceHandler) {
 			return (NamespaceHandler) handlerOrClassName;
 		}
+		/** 为字符串类型的key，加载，并替换*/
 		else {
 			String className = (String) handlerOrClassName;
 			try {
@@ -143,7 +148,12 @@ public class DefaultNamespaceHandlerResolver implements NamespaceHandlerResolver
 	}
 
 	/**
-	 * Load the specified NamespaceHandler mappings lazily.
+	 * 此配置信息与spring配置文件命名空间相关<br/>
+	 * 如果<b>handlerMappings</b>为空时，<br/>
+	 * 默认加载<b>META-INF/spring.handlers</b>目录下的配置信息。<br/>
+	 * @return
+	 * 2011-10-31
+	 * @author wangx
 	 */
 	private Map<String, Object> getHandlerMappings() {
 		if (this.handlerMappings == null) {

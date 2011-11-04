@@ -6,8 +6,8 @@
          elementFormDefault="qualified"
          attributeFormDefault="unqualified">
 
-   <xsd:element name="component">
-      <xsd:complexType>
+  <xsd:element name="component">
+     <xsd:complexType>
          <xsd:choice minOccurs="0" maxOccurs="unbounded">
             <xsd:element ref="component"/>
          </xsd:choice>
