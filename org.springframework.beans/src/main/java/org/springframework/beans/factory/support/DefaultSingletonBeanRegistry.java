@@ -83,7 +83,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	/** Set of registered singletons, containing the bean names in registration order */
 	private final Set<String> registeredSingletons = new LinkedHashSet<String>(16);
 
-	/** 目前正在创建中的单例bean的名称的集合 */
+	/** 目前正在创建中的单例bean的名称的集合,创建前放入，创建后删除 */
 	/** Names of beans that are currently in creation */
 	private final Set<String> singletonsCurrentlyInCreation = Collections.synchronizedSet(new HashSet<String>());
 
@@ -376,6 +376,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	}
 
 	/**
+	 *注册bean的依赖关系<br/>
 	 * Register a dependent bean for the given bean,
 	 * to be destroyed before the given bean is destroyed.
 	 * @param beanName the name of the bean

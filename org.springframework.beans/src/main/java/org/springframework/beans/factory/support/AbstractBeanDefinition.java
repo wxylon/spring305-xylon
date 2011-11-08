@@ -268,6 +268,8 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	}
 
 	/**
+	 * 用来覆盖已有的BeanDefinition,常用作子类覆盖父类的操作。<br/>
+	 * eg.new RootBeanDefinition(pbd).overrideFrom(bd);<br/>
 	 * Override settings in this bean definition (assumably a copied parent
 	 * from a parent-child inheritance relationship) from the given bean
 	 * definition (assumably the child).

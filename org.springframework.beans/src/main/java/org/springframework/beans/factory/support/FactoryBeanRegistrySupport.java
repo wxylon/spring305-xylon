@@ -42,7 +42,7 @@ import org.springframework.beans.factory.FactoryBeanNotInitializedException;
  */
 public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanRegistry {
 
-	/** 单例工厂bean缓存: FactoryBean name --> object */
+	/** 缓存工厂生产出来的bean: FactoryBean name --> object */
 	private final Map<String, Object> factoryBeanObjectCache = new ConcurrentHashMap<String, Object>();
 
 
@@ -74,7 +74,7 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 	}
 
 	/**
-	 * 根据bean名称获得缓存的工厂bean
+	 * 根据bean名称获得缓存的工厂生产出来的bean
 	 * @param beanName bean名称
 	 * @return the object obtained from the FactoryBean,
 	 * or <code>null</code> if not available

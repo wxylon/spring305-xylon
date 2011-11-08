@@ -95,35 +95,35 @@ public class DefaultListableBeanFactoryTests {
 	private static final Log factoryLog = LogFactory.getLog(DefaultListableBeanFactory.class);
 
 
-	@Test
-	public void testUnreferencedSingletonWasInstantiated() {
-		KnowsIfInstantiated.clearInstantiationRecord();
-		DefaultListableBeanFactory lbf = new DefaultListableBeanFactory();
-		Properties p = new Properties();
-		p.setProperty("x1.(class)", KnowsIfInstantiated.class.getName());
-		p.setProperty("x2.(class)", StringBuilder.class.getName());
-		assertTrue("singleton not instantiated", !KnowsIfInstantiated.wasInstantiated());
-		(new PropertiesBeanDefinitionReader(lbf)).registerBeanDefinitions(p);
-		lbf.preInstantiateSingletons();
-		assertTrue("singleton was instantiated", KnowsIfInstantiated.wasInstantiated());
-	}
-
 //	@Test
-//	public void testLazyInitialization() {
+//	public void testUnreferencedSingletonWasInstantiated() {
 //		KnowsIfInstantiated.clearInstantiationRecord();
 //		DefaultListableBeanFactory lbf = new DefaultListableBeanFactory();
 //		Properties p = new Properties();
 //		p.setProperty("x1.(class)", KnowsIfInstantiated.class.getName());
-//		p.setProperty("x1.(lazy-init)", "true");
+//		p.setProperty("x2.(class)", StringBuilder.class.getName());
 //		assertTrue("singleton not instantiated", !KnowsIfInstantiated.wasInstantiated());
 //		(new PropertiesBeanDefinitionReader(lbf)).registerBeanDefinitions(p);
-//		assertTrue("singleton not instantiated", !KnowsIfInstantiated.wasInstantiated());
 //		lbf.preInstantiateSingletons();
-//
-//		assertTrue("singleton not instantiated", !KnowsIfInstantiated.wasInstantiated());
-//		lbf.getBean("x1");
 //		assertTrue("singleton was instantiated", KnowsIfInstantiated.wasInstantiated());
 //	}
+
+	@Test
+	public void testLazyInitialization() {
+		KnowsIfInstantiated.clearInstantiationRecord();
+		DefaultListableBeanFactory lbf = new DefaultListableBeanFactory();
+		Properties p = new Properties();
+		p.setProperty("x1.(class)", KnowsIfInstantiated.class.getName());
+		p.setProperty("x1.(lazy-init)", "true");
+		assertTrue("singleton not instantiated", !KnowsIfInstantiated.wasInstantiated());
+		(new PropertiesBeanDefinitionReader(lbf)).registerBeanDefinitions(p);
+		assertTrue("singleton not instantiated", !KnowsIfInstantiated.wasInstantiated());
+		lbf.preInstantiateSingletons();
+
+		assertTrue("singleton not instantiated", !KnowsIfInstantiated.wasInstantiated());
+		lbf.getBean("x1");
+		assertTrue("singleton was instantiated", KnowsIfInstantiated.wasInstantiated());
+	}
 
 //	@Test
 //	public void testFactoryBeanDidNotCreatePrototype() {
