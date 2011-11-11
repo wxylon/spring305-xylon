@@ -47,22 +47,19 @@ public abstract class NamespaceHandlerSupport implements NamespaceHandler {
 	 * Stores the {@link BeanDefinitionParser} implementations keyed by the
 	 * local name of the {@link Element Elements} they handle.
 	 */
-	private final Map<String, BeanDefinitionParser> parsers =
-			new HashMap<String, BeanDefinitionParser>();
+	private final Map<String, BeanDefinitionParser> parsers = new HashMap<String, BeanDefinitionParser>();
 
 	/**
 	 * Stores the {@link BeanDefinitionDecorator} implementations keyed by the
 	 * local name of the {@link Element Elements} they handle.
 	 */
-	private final Map<String, BeanDefinitionDecorator> decorators =
-			new HashMap<String, BeanDefinitionDecorator>();
+	private final Map<String, BeanDefinitionDecorator> decorators = new HashMap<String, BeanDefinitionDecorator>();
 
 	/**
 	 * Stores the {@link BeanDefinitionDecorator} implementations keyed by the local
 	 * name of the {@link Attr Attrs} they handle.
 	 */
-	private final Map<String, BeanDefinitionDecorator> attributeDecorators =
-			new HashMap<String, BeanDefinitionDecorator>();
+	private final Map<String, BeanDefinitionDecorator> attributeDecorators = new HashMap<String, BeanDefinitionDecorator>();
 
 
 	/**
@@ -81,8 +78,7 @@ public abstract class NamespaceHandlerSupport implements NamespaceHandler {
 		String localName = parserContext.getDelegate().getLocalName(element);
 		BeanDefinitionParser parser = this.parsers.get(localName);
 		if (parser == null) {
-			parserContext.getReaderContext().fatal(
-					"Cannot locate BeanDefinitionParser for element [" + localName + "]", element);
+			parserContext.getReaderContext().fatal("Cannot locate BeanDefinitionParser for element [" + localName + "]", element);
 		}
 		return parser;
 	}
@@ -91,9 +87,7 @@ public abstract class NamespaceHandlerSupport implements NamespaceHandler {
 	 * Decorates the supplied {@link Node} by delegating to the {@link BeanDefinitionDecorator} that
 	 * is registered to handle that {@link Node}.
 	 */
-	public BeanDefinitionHolder decorate(
-			Node node, BeanDefinitionHolder definition, ParserContext parserContext) {
-
+	public BeanDefinitionHolder decorate(Node node, BeanDefinitionHolder definition, ParserContext parserContext) {
 		return findDecoratorForNode(node, parserContext).decorate(node, definition, parserContext);
 	}
 
@@ -112,12 +106,10 @@ public abstract class NamespaceHandlerSupport implements NamespaceHandler {
 			decorator = this.attributeDecorators.get(localName);
 		}
 		else {
-			parserContext.getReaderContext().fatal(
-					"Cannot decorate based on Nodes of type [" + node.getClass().getName() + "]", node);
+			parserContext.getReaderContext().fatal("Cannot decorate based on Nodes of type [" + node.getClass().getName() + "]", node);
 		}
 		if (decorator == null) {
-			parserContext.getReaderContext().fatal("Cannot locate BeanDefinitionDecorator for " +
-					(node instanceof Element ? "element" : "attribute") + " [" + localName + "]", node);
+			parserContext.getReaderContext().fatal("Cannot locate BeanDefinitionDecorator for " + (node instanceof Element ? "element" : "attribute") + " [" + localName + "]", node);
 		}
 		return decorator;
 	}
