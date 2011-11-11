@@ -46,7 +46,8 @@ public class BshScriptFactoryTests extends TestCase {
 
 	public void testStaticScript() throws Exception {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("bshContext.xml", getClass());
-
+		
+		System.out.println(Arrays.asList(ctx.getBeanNamesForType(Calculator.class)).size());
 		assertTrue(Arrays.asList(ctx.getBeanNamesForType(Calculator.class)).contains("calculator"));
 		assertTrue(Arrays.asList(ctx.getBeanNamesForType(Messenger.class)).contains("messenger"));
 

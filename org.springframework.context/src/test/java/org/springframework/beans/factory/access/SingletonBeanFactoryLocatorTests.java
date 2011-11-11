@@ -30,9 +30,7 @@ public class SingletonBeanFactoryLocatorTests {
 
 	@Test
 	public void testBasicFunctionality() {
-		SingletonBeanFactoryLocator facLoc = new SingletonBeanFactoryLocator(
-				"classpath*:" + ClassUtils.addResourcePathToPackagePath(getClass(), "ref1.xml"));
-		
+		SingletonBeanFactoryLocator facLoc = new SingletonBeanFactoryLocator("classpath*:" + ClassUtils.addResourcePathToPackagePath(getClass(), "ref1.xml"));
 		basicFunctionalityTest(facLoc);
 	}
 
