@@ -40,9 +40,9 @@ import org.springframework.util.ClassUtils;
  */
 @SuppressWarnings({ "unchecked", "serial" })
 public class DefaultIntroductionAdvisor implements IntroductionAdvisor, ClassFilter, Ordered, Serializable {
-
+	/**通知*/
 	private final Advice advice;
-	
+	/**该通知被代理的接口*/
 	private final Set<Class> interfaces = new HashSet<Class>();
 
 	private int order = Integer.MAX_VALUE;

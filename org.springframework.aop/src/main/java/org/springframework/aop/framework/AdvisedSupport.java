@@ -92,12 +92,13 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	private List<Class> interfaces = new ArrayList<Class>();
 
 	/**
+	 * 通知器集合<br/>
 	 * List of Advisors. If an Advice is added, it will be wrapped
 	 * in an Advisor before being added to this List.
 	 */
 	private List<Advisor> advisors = new LinkedList<Advisor>();
 
-	/**
+	/**变化后的通知器数组
 	 * Array updated on changes to the advisors list, which is easier
 	 * to manipulate internally.
 	 */
@@ -121,7 +122,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	}
 
 	/**
-	 * Initialize the method cache.
+	 * 初始化缓存
 	 */
 	private void initMethodCache() {
 		this.methodCache = new ConcurrentHashMap<MethodCacheKey, List<Object>>(32);
@@ -139,6 +140,9 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 		setTargetSource(new SingletonTargetSource(target));
 	}
 
+	/**
+	 * 被代理的对象
+	 */
 	public void setTargetSource(TargetSource targetSource) {
 		this.targetSource = (targetSource != null ? targetSource : EMPTY_TARGET_SOURCE);
 	}
@@ -220,7 +224,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	}
 
 	/**
-	 * Remove a proxied interface.
+	 * 删除一个已经代理的接口
 	 * <p>Does nothing if the given interface isn't proxied.
 	 * @param intf the interface to remove from the proxy
 	 * @return <code>true</code> if the interface was removed; <code>false</code>
@@ -251,11 +255,17 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 		return this.advisorArray;
 	}
 
+	/**
+	 * 增加一个通知器
+	 */
 	public void addAdvisor(Advisor advisor) {
 		int pos = this.advisors.size();
 		addAdvisor(pos, advisor);
 	}
 
+	/**
+	 * 增加一个通知器
+	 */
 	public void addAdvisor(int pos, Advisor advisor) throws AopConfigException {
 		if (advisor instanceof IntroductionAdvisor) {
 			validateIntroductionAdvisor((IntroductionAdvisor) advisor);
@@ -263,6 +273,9 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 		addAdvisorInternal(pos, advisor);
 	}
 
+	/**
+	 * 删除一个通知器
+	 */
 	public boolean removeAdvisor(Advisor advisor) {
 		int index = indexOf(advisor);
 		if (index == -1) {
@@ -274,6 +287,9 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 		}
 	}
 
+	/**
+	 * 删除指定索引通知器
+	 */
 	public void removeAdvisor(int index) throws AopConfigException {
 		if (isFrozen()) {
 			throw new AopConfigException("Cannot remove Advisor: Configuration is frozen.");
@@ -302,6 +318,9 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 		return this.advisors.indexOf(advisor);
 	}
 
+	/**
+	 * 替换通知器
+	 */
 	public boolean replaceAdvisor(Advisor a, Advisor b) throws AopConfigException {
 		Assert.notNull(a, "Advisor a must not be null");
 		Assert.notNull(b, "Advisor b must not be null");
