@@ -953,6 +953,7 @@ public abstract class ClassUtils {
 
 
 	/**
+	 * 返回指定类的所有接口<br/>
 	 * Return all interfaces that the given instance implements as array,
 	 * including ones implemented by superclasses.
 	 * @param instance the instance to analyze for interfaces
@@ -964,6 +965,7 @@ public abstract class ClassUtils {
 	}
 
 	/**
+	 * 返回指定类的所有接口<br/>
 	 * Return all interfaces that the given class implements as array,
 	 * including ones implemented by superclasses.
 	 * <p>If the class itself is an interface, it gets returned as sole interface.
@@ -975,6 +977,7 @@ public abstract class ClassUtils {
 	}
 
 	/**
+	 * 返回指定类的所有接口<br/>
 	 * Return all interfaces that the given class implements as array,
 	 * including ones implemented by superclasses.
 	 * <p>If the class itself is an interface, it gets returned as sole interface.
@@ -1011,6 +1014,7 @@ public abstract class ClassUtils {
 	}
 
 	/**
+	 * 返回指定类的所有接口<br/>
 	 * Return all interfaces that the given class implements as Set,
 	 * including ones implemented by superclasses.
 	 * <p>If the class itself is an interface, it gets returned as sole interface.
@@ -1051,6 +1055,7 @@ public abstract class ClassUtils {
 	}
 
 	/**
+	 * 检查该类是否能被classLoader访问
 	 * Check whether the given class is visible in the given ClassLoader.
 	 * @param clazz the class to check (typically an interface)
 	 * @param classLoader the ClassLoader to check against (may be <code>null</code>,
