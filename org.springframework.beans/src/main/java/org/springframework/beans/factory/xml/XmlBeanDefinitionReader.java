@@ -115,7 +115,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	private NamespaceHandlerResolver namespaceHandlerResolver;
 
 	private DocumentLoader documentLoader = new DefaultDocumentLoader();
-
+	//解析器，包含xsd和dtd的解析。
 	private EntityResolver entityResolver;
 
 	//自定义ErrorHandler实现类

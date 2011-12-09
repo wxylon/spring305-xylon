@@ -71,7 +71,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	 */
 	public static final TargetSource EMPTY_TARGET_SOURCE = EmptyTargetSource.INSTANCE;
 
-
+	/** 被代理的对象 */
 	/** Package-protected to allow direct access for efficiency */
 	TargetSource targetSource = EMPTY_TARGET_SOURCE;
 
@@ -85,6 +85,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	private transient Map<MethodCacheKey, List<Object>> methodCache;
 
 	/**
+	 * 将被JDK代理的接口类型集合
 	 * Interfaces to be implemented by the proxy. Held in List to keep the order
 	 * of registration, to create JDK proxy with specified order of interfaces.
 	 */
@@ -128,6 +129,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 
 
 	/**
+	 * 被代理的对象
 	 * Set the given object as target.
 	 * Will create a SingletonTargetSource for the object.
 	 * @see #setTargetSource
@@ -192,7 +194,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 
 
 	/**
-	 * Set the interfaces to be proxied.
+	 * 设置代理接口
 	 */
 	public void setInterfaces(Class[] interfaces) {
 		Assert.notNull(interfaces, "Interfaces must not be null");
@@ -201,10 +203,10 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 			addInterface(ifc);
 		}
 	}
-
+	
 	/**
-	 * Add a new proxied interface.
-	 * @param intf the additional interface to proxy
+	 * 添加一个代理接口
+	 * @param intf	被代理的接口
 	 */
 	public void addInterface(Class intf) {
 		Assert.notNull(intf, "Interface must not be null");
@@ -228,6 +230,9 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 		return this.interfaces.remove(intf);
 	}
 
+	/**
+	 * 获得被代理接口的类数组
+	 */
 	public Class[] getProxiedInterfaces() {
 		return this.interfaces.toArray(new Class[this.interfaces.size()]);
 	}
@@ -487,7 +492,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	}
 
 	/**
-	 * Invoked when advice has changed.
+	 * 当通知发生变化时，缓存将改变
 	 */
 	protected void adviceChanged() {
 		this.methodCache.clear();
