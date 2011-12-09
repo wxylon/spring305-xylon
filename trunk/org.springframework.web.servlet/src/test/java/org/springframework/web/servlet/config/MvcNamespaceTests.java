@@ -84,9 +84,13 @@ public class MvcNamespaceTests {
 	public void testDefaultConfig() throws Exception {
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(appContext);
 		reader.loadBeanDefinitions(new ClassPathResource("mvc-config.xml", getClass()));
+//		org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping#0
+//		org.springframework.format.support.FormattingConversionServiceFactoryBean#0
+//		org.springframework.validation.beanvalidation.LocalValidatorFactoryBean#0
+//		org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter#0
+//		org.springframework.web.servlet.handler.MappedInterceptor#0
 		assertEquals(5, appContext.getBeanDefinitionCount());
 		appContext.refresh();
-
 		DefaultAnnotationHandlerMapping mapping = appContext.getBean(DefaultAnnotationHandlerMapping.class);
 		assertNotNull(mapping);
 		assertEquals(0, mapping.getOrder());

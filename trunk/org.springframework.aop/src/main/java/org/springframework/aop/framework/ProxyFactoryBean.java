@@ -99,6 +99,13 @@ public class ProxyFactoryBean extends ProxyCreatorSupport
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
+   /**
+	* Advisor的字符串数组，可以包括拦截器或其它通知的名字。
+	* 顺序是很重要的，排在前面的将被优先服务。
+	* 就是说列表里的第一个拦截器将能够第一个拦截调用。 
+	* 这里的名字是当前工厂中bean的名字，包括父工厂中bean的名字。
+	* 这里你不能使用bean的引用因为这会导致ProxyFactoryBean忽略通知的单例设置。
+	*/
 	private String[] interceptorNames;
 	
 	private String targetName;
@@ -117,6 +124,7 @@ public class ProxyFactoryBean extends ProxyCreatorSupport
 
 	private transient BeanFactory beanFactory;
 
+	/**通知器链是否已经初始化*/
 	/** Whether the advisor chain has already been initialized */
 	private boolean advisorChainInitialized = false;
 
@@ -125,6 +133,7 @@ public class ProxyFactoryBean extends ProxyCreatorSupport
 
 
 	/**
+	 * 需要代理的接口名的字符串数组。如果没有提供，将为目标类使用一个CGLIB代理<br/>
 	 * Set the names of the interfaces we're proxying. If no interface
 	 * is given, a CGLIB for the actual class will be created.
 	 * <p>This is essentially equivalent to the "setInterfaces" method,
@@ -309,10 +318,12 @@ public class ProxyFactoryBean extends ProxyCreatorSupport
 				if (targetClass == null) {
 					throw new FactoryBeanNotInitializedException("Cannot determine target class for proxy");
 				}
+				//这里设置代理对象的接口。
 				setInterfaces(ClassUtils.getAllInterfacesForClass(targetClass, this.proxyClassLoader));
 			}
 			// Initialize the shared singleton instance.
 			super.setFrozen(this.freezeProxy);
+			//注意这里的方法会使用ProxyFactory来生成我们需要的Proxy。
 			this.singletonInstance = getProxy(createAopProxy());
 		}
 		return this.singletonInstance;
@@ -350,6 +361,7 @@ public class ProxyFactoryBean extends ProxyCreatorSupport
 	}
 
 	/**
+	 * 使用createAopProxy返回的AopProxy来得到代理对象。<br/>
 	 * Return the proxy object to expose.
 	 * <p>The default implementation uses a <code>getProxy</code> call with
 	 * the factory's bean class loader. Can be overridden to specify a
@@ -430,7 +442,7 @@ public class ProxyFactoryBean extends ProxyCreatorSupport
 				throw new AopConfigException("Target required after globals");
 			}
 
-			// Materialize interceptor chain from bean names.
+			// 这里是添加advisor链的调用，是通过interceptorNames属性来进行  配置的
 			for (String name : this.interceptorNames) {
 				if (logger.isTraceEnabled()) {
 					logger.trace("Configuring advisor or advice '" + name + "'");

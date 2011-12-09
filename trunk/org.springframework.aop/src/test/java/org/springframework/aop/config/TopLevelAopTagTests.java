@@ -39,7 +39,7 @@ public final class TopLevelAopTagTests {
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
 		reader.loadBeanDefinitions(CONTEXT);
-
+		beanFactory.getBean("testPointcut");
 		assertTrue(beanFactory.containsBeanDefinition("testPointcut"));
 	}
 

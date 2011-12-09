@@ -30,7 +30,11 @@ import org.springframework.util.Assert;
  * @see #createAopProxy()
  */
 public class ProxyCreatorSupport extends AdvisedSupport {
-
+	
+	/**使用AopProxyFactory的实现。这提供了一种方法来自定义是否使用动态代理，CGLIB或其它代理策略。 
+	 * 缺省实现将根据情况选择动态代理或者CGLIB。一般情况下应该没有使用这个属性的需要；
+	 * 它是被设计来在Spring 1.1中添加新的代理类型的。 
+	 */
 	private AopProxyFactory aopProxyFactory;
 
 	private List<AdvisedSupportListener> listeners = new LinkedList<AdvisedSupportListener>();
@@ -101,6 +105,11 @@ public class ProxyCreatorSupport extends AdvisedSupport {
 		if (!this.active) {
 			activate();
 		}
+		/**
+		 * 通过AopProxyFactory取得AopProxy，      
+		 * 这个AopProxyFactory是在
+		 * 初始化函数中定义的，使用的是DefaultAopProxyFactory。      
+		 */
 		return getAopProxyFactory().createAopProxy(this);
 	}
 
