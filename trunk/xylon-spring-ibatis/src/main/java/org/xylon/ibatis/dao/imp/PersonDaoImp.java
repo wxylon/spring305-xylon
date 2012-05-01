@@ -36,9 +36,9 @@ public class PersonDaoImp extends SqlMapClientDaoSupport implements PersonDao {
                 executor.startBatch();
                 Iterator<Person> iter = applications.iterator();
                 while( iter.hasNext() ) {
-                    executor.update("Person.insertPerson", iter.next());
+                    executor.insert("Person.insertPerson", iter.next());
                 }
-                return new Integer( executor.executeBatch() );	
+                return executor.executeBatch();	
             }
         });
         return updateCount.intValue();
