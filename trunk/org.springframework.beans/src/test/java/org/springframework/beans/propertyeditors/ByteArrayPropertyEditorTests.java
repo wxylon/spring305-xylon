@@ -18,11 +18,18 @@ package org.springframework.beans.propertyeditors;
 
 import junit.framework.TestCase;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyEditor;
 
 /**
- * Unit tests for the {@link ByteArrayPropertyEditor} class.
- *
+ * 属性编辑器：主要功能是通过设置字符串，来默认转换为指定格式；
+ * 可以注册监听器：PropertyChangeListener，只要调用setValue方法，将会触发监听器；
+ * @see java.beans.PropertyEditorSupport.setValue("??") and setAsText()
+ * setAsText()
+ * getAsText()		用来获取和设置将字符串转换为任意类型，包括基本数据类型，对象类型
+ * getValue()
+ * setValue()		用来获取和设置原始类型
  * @author Rick Evans
  */
 public final class ByteArrayPropertyEditorTests extends TestCase {
@@ -31,6 +38,7 @@ public final class ByteArrayPropertyEditorTests extends TestCase {
 		final String text = "Hideous towns make me throw... up";
 
 		PropertyEditor byteEditor = new ByteArrayPropertyEditor();
+		byteEditor.addPropertyChangeListener(new PropertyChangeListenerCustomer());
 		byteEditor.setAsText(text);
 
 		Object value = byteEditor.getValue();
@@ -50,5 +58,17 @@ public final class ByteArrayPropertyEditorTests extends TestCase {
 		byteEditor.setAsText(null);
 		assertEquals("", byteEditor.getAsText());
 	}
+	
+	
+	public static final class PropertyChangeListenerCustomer implements PropertyChangeListener{
 
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			System.out.println(evt.getSource());
+			System.out.println(evt.getNewValue());
+			System.out.println(evt.getOldValue());
+			System.out.println(evt.getPropagationId());
+			System.out.println(evt.getPropertyName());
+		}
+	}
 }
