@@ -23,6 +23,8 @@ import org.springframework.beans.TypeConverter;
 import org.springframework.beans.factory.BeanFactory;
 
 /**
+ * 
+ * <p>这个接口更多的作用是用于和其他框架的结合，把不在Spring容器中的Bean加入到Spring容器声明周期管理中来。</p>
  * Extension of the {@link org.springframework.beans.factory.BeanFactory}
  * interface to be implemented by bean factories that are capable of
  * autowiring, provided that they want to expose this functionality for

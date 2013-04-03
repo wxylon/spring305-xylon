@@ -30,6 +30,8 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.util.StringValueResolver;
 
 /**
+ * <pre>此接口定义了BeanFactory的扩配置功能，几乎所有的beanFactory都会实现这个接口。
+ * 同样，此接口也不推荐在常见的应用代码中使用（还是推荐使用BeanFactory和ListableBeanFactory）。这个接口也赋予了BeanFactory可扩展的功能</pre>
  * Configuration interface to be implemented by most bean factories. Provides
  * facilities to configure a bean factory, in addition to the bean factory
  * client methods in the {@link org.springframework.beans.factory.BeanFactory}
