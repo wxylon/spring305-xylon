@@ -104,87 +104,52 @@ import org.springframework.transaction.PlatformTransactionManager;
 public class TransactionProxyFactoryBean extends AbstractSingletonProxyFactoryBean
 		implements BeanFactoryAware {
 
+	//通过AOP发挥作用的事务拦截器
 	private final TransactionInterceptor transactionInterceptor = new TransactionInterceptor();
-
+	//事务的AOP切入点 
 	private Pointcut pointcut;
 
 
-	/**
-	 * Set the transaction manager. This will perform actual
-	 * transaction management: This class is just a way of invoking it.
-	 * @see TransactionInterceptor#setTransactionManager
-	 */
+	//通过Spring IoC容器依赖注入的PlatformTransactionManager事务管理器 
 	public void setTransactionManager(PlatformTransactionManager transactionManager) {
 		this.transactionInterceptor.setTransactionManager(transactionManager);
 	}
 
-	/**
-	 * Set properties with method names as keys and transaction attribute
-	 * descriptors (parsed via TransactionAttributeEditor) as values:
-	 * e.g. key = "myMethod", value = "PROPAGATION_REQUIRED,readOnly".
-	 * <p>Note: Method names are always applied to the target class,
-	 * no matter if defined in an interface or the class itself.
-	 * <p>Internally, a NameMatchTransactionAttributeSource will be
-	 * created from the given properties.
-	 * @see #setTransactionAttributeSource
-	 * @see TransactionInterceptor#setTransactionAttributes
-	 * @see TransactionAttributeEditor
-	 * @see NameMatchTransactionAttributeSource
-	 */
+	//通过依赖注入设置事务属性，以Properties形式存放的事务属性的key是方法名，  
+    //value是事务属性描述  
 	public void setTransactionAttributes(Properties transactionAttributes) {
 		this.transactionInterceptor.setTransactionAttributes(transactionAttributes);
 	}
 
-	/**
-	 * Set the transaction attribute source which is used to find transaction
-	 * attributes. If specifying a String property value, a PropertyEditor
-	 * will create a MethodMapTransactionAttributeSource from the value.
-	 * @see #setTransactionAttributes
-	 * @see TransactionInterceptor#setTransactionAttributeSource
-	 * @see TransactionAttributeSourceEditor
-	 * @see MethodMapTransactionAttributeSource
-	 * @see NameMatchTransactionAttributeSource
-	 * @see AttributesTransactionAttributeSource
-	 * @see org.springframework.transaction.annotation.AnnotationTransactionAttributeSource
-	 */
+	//通过依赖注入设置事务属性源，通过事务属性源可以找到需要使用的事务属性  
 	public void setTransactionAttributeSource(TransactionAttributeSource transactionAttributeSource) {
 		this.transactionInterceptor.setTransactionAttributeSource(transactionAttributeSource);
 	}
 
-	/**
-	 * Set a pointcut, i.e a bean that can cause conditional invocation
-	 * of the TransactionInterceptor depending on method and attributes passed.
-	 * Note: Additional interceptors are always invoked.
-	 * @see #setPreInterceptors
-	 * @see #setPostInterceptors
-	 */
+	//通过依赖注入设置事务切入点，事务切入点根据触发条件调用事务拦截器
 	public void setPointcut(Pointcut pointcut) {
 		this.pointcut = pointcut;
 	}
 
-	/**
-	 * This callback is optional: If running in a BeanFactory and no transaction
-	 * manager has been set explicitly, a single matching bean of type
-	 * PlatformTransactionManager will be fetched from the BeanFactory.
-	 * @see org.springframework.beans.factory.BeanFactoryUtils#beanOfTypeIncludingAncestors
-	 * @see org.springframework.transaction.PlatformTransactionManager
-	 */
+	//为事务拦截器设置管理事务的容器 
 	public void setBeanFactory(BeanFactory beanFactory) {
 		this.transactionInterceptor.setBeanFactory(beanFactory);
 	}
 
 
-	/**
-	 * Creates an advisor for this FactoryBean's TransactionInterceptor.
-	 */
+	//创建Spring AOP事务处理的通知器Advisor
 	@Override
 	protected Object createMainInterceptor() {
+		//调用事务拦截器的方法，检查必需的属性是否设置
 		this.transactionInterceptor.afterPropertiesSet();
+		//如果在Spring配置中设置了事务切入点
 		if (this.pointcut != null) {
+			//使用Spring默认的通知器封装事务切入点和事务拦截器
 			return new DefaultPointcutAdvisor(this.pointcut, this.transactionInterceptor);
 		}
+		 //如果在Spring配置中没有设置事务切入点
 		else {
-			// Rely on default pointcut.
+			//使用TransactionAttributeSourceAdvisor封装默认的事务切入点  
 			return new TransactionAttributeSourceAdvisor(this.transactionInterceptor);
 		}
 	}
