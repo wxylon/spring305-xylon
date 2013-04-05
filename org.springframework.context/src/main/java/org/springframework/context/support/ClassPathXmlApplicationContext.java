@@ -50,6 +50,7 @@ import org.springframework.util.Assert;
  */
 public class ClassPathXmlApplicationContext extends AbstractXmlApplicationContext {
 
+	/**初始化配置文件*/
 	private Resource[] configResources;
 
 
@@ -132,10 +133,12 @@ public class ClassPathXmlApplicationContext extends AbstractXmlApplicationContex
 	 */
 	public ClassPathXmlApplicationContext(String[] configLocations, boolean refresh, ApplicationContext parent)
 			throws BeansException {
-
+		/**初始化类加载器, ClassPathXmlApplicationContext继承自DefaultResourceLoader, DefaultResourceLoader初始化已经加载了容器默认的类加载器*/
 		super(parent);
+		/**设置spring-bean的配置文件*/
 		setConfigLocations(configLocations);
 		if (refresh) {
+			/**初始化容器*/
 			refresh();
 		}
 	}
