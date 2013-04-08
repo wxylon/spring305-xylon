@@ -17,6 +17,9 @@
 package org.springframework.beans.factory.config;
 
 /**
+ * 
+ * 这个接口定义了一个注册singleton bean的容器。此接口可以被BeanFactory的实现实现，用来形成一个统一管理singleton bean的风格。
+ * ConfigurableBeanFactory接口就继承了此接口。
  * Interface that defines a registry for shared bean instances.
  * Can be implemented by {@link org.springframework.beans.factory.BeanFactory}
  * implementations in order to expose their singleton management facility
