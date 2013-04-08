@@ -22,6 +22,11 @@ import java.util.Map;
 import org.springframework.beans.BeansException;
 
 /**
+ * 
+ * 顾名思义，此BeanFactory是可以把容器中的bean循环枚举出来，而不是按照名字一个一个去取。
+ * 如果实现此接口的同时，也实现了HierarchicalBeanFactory，那么这个接口中的方法是不会去考虑父容器中的bean的。
+ * 需要注意的是：除了getBeanDefinitionCount和containsBeanDefinition方法之外，其他的方法最好不要直接在代码中调用，因为其实现可能会非常慢。
+ * 
  * Extension of the {@link BeanFactory} interface to be implemented by bean factories
  * that can enumerate all their bean instances, rather than attempting bean lookup
  * by name one by one as requested by clients. BeanFactory implementations that
