@@ -213,7 +213,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	}
 
 	/**
-	 * 这里是实际去取bean的地方，也是触发依赖注入发生的地  方。  
+	 * 这里是实际去取bean的地方，也是触发依赖注入发生的地方。  
 	 * Return an instance, which may be shared or independent, of the specified bean.
 	 * @param name the name of the bean to retrieve
 	 * @param requiredType the required type of the bean to retrieve
