@@ -17,6 +17,10 @@
 package org.springframework.beans.factory;
 
 /**
+ * 有层次的BeanFactory。如果实现了这个接口，可能就以为着你也需要实现ConfigurableBeanFactory。
+ * 因为ConfigurableBeanFactory定义了设置父容器的方法，而HierarchicalBeanFactory的方法只有获得父容器的方法。
+ * 而一般情况下，ConfigurableBeanFactory接口直接继承了HierarchicalBeanFactory。所以，它的实现，也是肯定要设置父容器的。
+ * 
  * Sub-interface implemented by bean factories that can be part
  * of a hierarchy.
  *
